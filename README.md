@@ -11,5 +11,5 @@ O projeto foi desenvolvido utilizando arquitetura MVC, alguns padrões de projet
 Também foi utilizado conceitos de clean code e SOLID.
 Além disso, foi criado um teste unitário para validar a rotina de cálculo presente no ModelAbastecimento.
 
-### OBS: Executar o exe do projeto ou do teste unitário dentro do local atual que já está no diretório.
+### OBS: Executar o exe do projeto ou do teste unitário dentro do local atual que já está no diretório, pois a aplicação está apontando para o caminho Assets/DB para se conectar ao banco.
 
