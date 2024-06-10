@@ -1,0 +1,404 @@
+unit Sistema.View.Abastecimento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.WinXPanels, Sistema.Controller.Interfaces,
+  System.Generics.Collections, Datasnap.DBClient;
+
+type
+  TTipoCombustivel = (tpGasolina = 1, tpOleo = 2);
+
+  TfrmAbastecimento = class(TForm)
+    CardPanelAbastecimento: TCardPanel;
+    pnlHistorico: TPanel;
+    DBGridHistoricoAbastecimentos: TDBGrid;
+    btnAbastecimento: TButton;
+    btnRelatorio: TButton;
+    CardHistorico: TCard;
+    CardAbastecimento: TCard;
+    pnlAbastecimento: TPanel;
+    pnlComponentesAbastecimento: TPanel;
+    RbBombasGasolina: TRadioGroup;
+    RbBombasOleo: TRadioGroup;
+    pnlInformacoesDoAbastecimento: TPanel;
+    lbValorAAbastecer: TLabel;
+    lbLitrosAbastecidos: TLabel;
+    lbSubtotal: TLabel;
+    lbValorImposto: TLabel;
+    lbValorTotal: TLabel;
+    edtValorAbastecimento: TEdit;
+    edtQtdLitrosAbastecido: TEdit;
+    edtSubtotal: TEdit;
+    edtValorImposto: TEdit;
+    edtValorTotalAbastecimento: TEdit;
+    btnAbastecer: TButton;
+    pnlGasolina: TPanel;
+    pnlOleo: TPanel;
+    btnHistorico: TButton;
+    lbValorGasolina: TLabel;
+    lbValorOleo: TLabel;
+    btnNovoAbastecimento: TButton;
+    procedure btnAbastecimentoClick(Sender: TObject);
+    procedure btnHistoricoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure pnlGasolinaClick(Sender: TObject);
+    procedure pnlOleoClick(Sender: TObject);
+    procedure RbBombasGasolinaClick(Sender: TObject);
+    procedure RbBombasOleoClick(Sender: TObject);
+    procedure btnAbastecerClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnNovoAbastecimentoClick(Sender: TObject);
+    procedure btnRelatorioClick(Sender: TObject);
+  private
+    { Private declarations }
+    FControllerModelFactory: IControllerModelFactory;
+    FTipoCombustivelSelecionado: TTipoCombustivel;
+    FNumeroBombaDeCombustivelSelecionada: Integer;
+    FValorGasolina: Double;
+    FValorOleo: Double;
+    FValorCombustivelLitro: Double;
+    FTipoCombustivel: Integer;
+    FNumeroBomba: Integer;
+    FCdsAbastecimento: TClientDataSet;
+    procedure CarregarGrade;
+    procedure AjustarComponentesPainelInformacoesPagamento;
+    procedure AjustarComponentesPainelAbastecimento;
+    procedure HabilitarDesabilitarBotoesCombustivel(Sender: TObject);
+    procedure HabilitarDesabilitarBombasDeCombustivel(Sender: TObject);
+    procedure CarregarValoresCombustivel;
+    procedure ProcessarAbastecimento;
+    procedure CarregarValoresProcessamentoAbastecimento;
+    procedure ValidarCampos;
+    procedure CriarColunasGrade;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAbastecimento: TfrmAbastecimento;
+
+implementation
+
+uses
+  Sistema.Controller.ModelFactory, System.StrUtils, System.SysUtils,
+  Sistema.View.GeradorRelatorio, Datasnap.Provider;
+
+{$R *.dfm}
+
+procedure TfrmAbastecimento.AjustarComponentesPainelAbastecimento;
+Var
+  I: integer;
+begin
+  for I := 0 to Pred(pnlComponentesAbastecimento.ControlCount) do
+    begin
+      if (pnlComponentesAbastecimento.Controls[I] is TRadioGroup) then
+        begin
+          TRadioGroup(pnlComponentesAbastecimento.Controls[I]).Enabled := False;
+          TRadioGroup(pnlComponentesAbastecimento.Controls[I]).ItemIndex := -1;
+        end;
+
+
+       if (pnlComponentesAbastecimento.Controls[I] is TPanel) and (MatchStr(pnlComponentesAbastecimento.Controls[I].Name, ['pnlGasolina', 'pnlOleo'])) then
+        TPanel(pnlComponentesAbastecimento.Controls[I]).Color := clGray;
+    end;
+end;
+
+procedure TfrmAbastecimento.AjustarComponentesPainelInformacoesPagamento;
+Var
+  I: integer;
+begin
+  for I := 0 to Pred(pnlInformacoesDoAbastecimento.ControlCount) do
+    begin
+      if (pnlInformacoesDoAbastecimento.Controls[I] is TEdit) then
+        begin
+          if not(pnlInformacoesDoAbastecimento.Controls[I].Name = 'edtValorAbastecimento') then
+            TEdit(pnlInformacoesDoAbastecimento.Controls[I]).Enabled := False;
+
+          TEdit(pnlInformacoesDoAbastecimento.Controls[I]).Clear();
+        end;
+
+      if (pnlInformacoesDoAbastecimento.Controls[I] is TButton) then
+        begin
+          if (pnlInformacoesDoAbastecimento.Controls[I].Name = 'btnAbastecer') then
+            TButton(pnlInformacoesDoAbastecimento.Controls[I]).Enabled := True;
+
+          if (pnlInformacoesDoAbastecimento.Controls[I].Name = 'btnNovoAbastecimento') then
+            begin
+              TButton(pnlInformacoesDoAbastecimento.Controls[I]).Enabled := False;
+              TButton(pnlInformacoesDoAbastecimento.Controls[I]).Visible := False;
+            end;
+        end;
+    end;
+end;
+
+procedure TfrmAbastecimento.btnAbastecerClick(Sender: TObject);
+begin
+  ValidarCampos();
+  ProcessarAbastecimento();
+  CarregarValoresProcessamentoAbastecimento();
+  btnAbastecer.Enabled := False;
+
+  btnNovoAbastecimento.Visible := True;
+  btnNovoAbastecimento.Enabled := True;
+end;
+
+procedure TfrmAbastecimento.btnAbastecimentoClick(Sender: TObject);
+begin
+  CardPanelAbastecimento.ActiveCard := CardAbastecimento;
+end;
+
+procedure TfrmAbastecimento.btnHistoricoClick(Sender: TObject);
+begin
+  CardPanelAbastecimento.ActiveCard := CardHistorico;
+end;
+
+procedure TfrmAbastecimento.btnNovoAbastecimentoClick(Sender: TObject);
+begin
+  AjustarComponentesPainelInformacoesPagamento();
+  AjustarComponentesPainelAbastecimento();
+  CarregarValoresCombustivel();
+end;
+
+procedure TfrmAbastecimento.btnRelatorioClick(Sender: TObject);
+Var
+  FrmRelatorio: TfrmGerarRelatorio;
+begin
+  FrmRelatorio := TfrmGerarRelatorio.Create(nil);
+  try
+    FrmRelatorio.ShowModal()
+  finally
+    FrmRelatorio.Free;
+  end;
+end;
+
+procedure TfrmAbastecimento.CarregarGrade;
+begin
+  CriarColunasGrade();
+end;
+
+procedure TfrmAbastecimento.CarregarValoresCombustivel;
+Var
+  lModelCombustivel: TDataSource;
+begin
+  lModelCombustivel := FControllerModelFactory.GetModelCombustivel.GetDataSource();
+
+  lModelCombustivel.DataSet.First;
+
+  while not lModelCombustivel.DataSet.Eof do
+    begin
+      case lModelCombustivel.DataSet.FieldByName('id').AsInteger of
+        1:
+          begin
+            FValorGasolina := lModelCombustivel.DataSet.FieldByName('ValorCombustivelLitro').AsCurrency;
+            lbValorGasolina.Caption := FormatFloat('R$#,##0.00/L', FValorGasolina);
+          end;
+        2:
+          begin
+            FValorOleo := lModelCombustivel.DataSet.FieldByName('ValorCombustivelLitro').AsCurrency;
+            lbValorOleo.Caption := FormatFloat('R$#,##0.00/L', FValorOleo);
+          end;
+      end;
+
+      lModelCombustivel.DataSet.Next;
+    end;
+end;
+
+procedure TfrmAbastecimento.CarregarValoresProcessamentoAbastecimento;
+begin
+  edtQtdLitrosAbastecido.Text := FormatFloat('#,##0.00/L', FControllerModelFactory.GetModelAbastecimento.GetQuantidadeCombustivelLitro);
+  edtSubtotal.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorSubTotal);
+  edtValorImposto.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorImposto);
+  edtValorTotalAbastecimento.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorTotal);
+end;
+
+procedure TfrmAbastecimento.CriarColunasGrade;
+Var
+  lFieldCodigo, lFieldTipoCombustivel, lFieldNumeroBomba: TIntegerField;
+  lFieldValorAbastecido, lFieldValorImposto, lFieldQuantidadeLitros, lFieldValorTotal, lFieldSubTotal: TFloatField;
+  lFieldDataAbastecimento: TDateTimeField;
+  lProvider: TDataSetProvider;
+  lDataSource: TDataSource;
+begin
+  FCdsAbastecimento := TClientDataSet.Create(nil);
+
+  lProvider := TDataSetProvider.Create(nil);
+  lProvider.DataSet := FControllerModelFactory.GetModelAbastecimento.GetDataSource.DataSet;
+
+  lFieldCodigo := TIntegerField.Create(nil);
+  lFieldCodigo.DisplayLabel := 'Código';
+  lFieldCodigo.FieldName := 'Id';
+  lFieldCodigo.DataSet := FCdsAbastecimento;
+
+  lFieldTipoCombustivel := TIntegerField.Create(nil);
+  lFieldTipoCombustivel.DisplayLabel := 'Tipo Combustível';
+  lFieldTipoCombustivel.FieldName := 'TipoCombustivel';
+  lFieldTipoCombustivel.DataSet := FCdsAbastecimento;
+
+  lFieldNumeroBomba := TIntegerField.Create(nil);
+  lFieldNumeroBomba.DisplayLabel := 'Número Bomba';
+  lFieldNumeroBomba.FieldName := 'NumeroBomba';
+  lFieldNumeroBomba.DataSet := FCdsAbastecimento;
+
+  lFieldValorAbastecido := TFloatField.Create(nil);
+  lFieldValorAbastecido.DisplayLabel := 'Valor Abastecido';
+  lFieldValorAbastecido.FieldName := 'ValorAbastecido';
+  lFieldValorAbastecido.DisplayFormat := 'R$#,##0.00';
+  lFieldValorAbastecido.DataSet := FCdsAbastecimento;
+
+  lFieldValorImposto := TFloatField.Create(nil);
+  lFieldValorImposto.DisplayLabel := 'Valor Imposto';
+  lFieldValorImposto.FieldName := 'ValorImposto';
+  lFieldValorImposto.DisplayFormat := 'R$#,##0.00';
+  lFieldValorImposto.DataSet := FCdsAbastecimento;
+
+  lFieldQuantidadeLitros := TFloatField.Create(nil);
+  lFieldQuantidadeLitros.DisplayLabel := 'Litros';
+  lFieldQuantidadeLitros.FieldName := 'QuantidadeLitros';
+  lFieldQuantidadeLitros.DisplayFormat := '#,##0.00';
+  lFieldQuantidadeLitros.DataSet := FCdsAbastecimento;
+
+  lFieldValorTotal := TFloatField.Create(nil);
+  lFieldValorTotal.DisplayLabel := 'Total';
+  lFieldValorTotal.FieldName := 'Total';
+  lFieldValorTotal.DisplayFormat := 'R$#,##0.00';
+  lFieldValorTotal.DataSet := FCdsAbastecimento;
+
+  lFieldSubTotal := TFloatField.Create(nil);
+  lFieldSubTotal.DisplayLabel := 'Subtotal';
+  lFieldSubTotal.FieldName := 'SubTotal';
+  lFieldSubTotal.DisplayFormat := 'R$#,##0.00';
+  lFieldSubTotal.DataSet := FCdsAbastecimento;
+
+
+  lFieldDataAbastecimento := TDateTimeField.Create(nil);
+  lFieldDataAbastecimento.DisplayLabel := 'Data Abastecimento';
+  lFieldDataAbastecimento.FieldName := 'DataAbastecimento';
+  lFieldDataAbastecimento.DataSet := FCdsAbastecimento;
+
+  FCdsAbastecimento.SetProvider(lProvider);
+
+  lDataSource := TDataSource.Create(nil);
+
+  lDataSource.DataSet := FCdsAbastecimento;
+
+  DBGridHistoricoAbastecimentos.DataSource := lDataSource;
+
+  FCdsAbastecimento.Active := true;
+
+end;
+
+procedure TfrmAbastecimento.FormCreate(Sender: TObject);
+begin
+  FNumeroBomba := -1;
+  FTipoCombustivel := 0;
+  FValorGasolina := 0;
+  FValorOleo:= 0;
+  FValorCombustivelLitro := 0;
+end;
+
+procedure TfrmAbastecimento.FormShow(Sender: TObject);
+begin
+  FControllerModelFactory := TControllerModelFactory.new();
+
+  CarregarGrade();
+  AjustarComponentesPainelInformacoesPagamento();
+  AjustarComponentesPainelAbastecimento();
+  CarregarValoresCombustivel();
+end;
+
+procedure TfrmAbastecimento.HabilitarDesabilitarBombasDeCombustivel(Sender: TObject);
+begin
+  if TPanel(Sender).Name = 'pnlGasolina' then
+    begin
+      RbBombasGasolina.Enabled := true;
+      RbBombasOleo.Enabled := false;
+      RbBombasOleo.ItemIndex := -1;
+    end
+  else
+    begin
+      RbBombasGasolina.Enabled := false;
+      RbBombasOleo.Enabled := true;
+      RbBombasGasolina.ItemIndex := -1;
+    end;
+end;
+
+procedure TfrmAbastecimento.HabilitarDesabilitarBotoesCombustivel(Sender: TObject);
+begin
+  if TPanel(Sender).Name = 'pnlGasolina' then
+    begin
+      pnlOleo.Color := clGray;
+      pnlGasolina.Color := clGreen;
+      FTipoCombustivel := Ord(tpGasolina);
+      FValorCombustivelLitro := FValorGasolina;
+    end
+  else
+    begin
+      pnlGasolina.Color := clGray;
+      pnlOleo.Color := clGreen;
+      FTipoCombustivel := Ord(tpOleo);
+      FValorCombustivelLitro := FValorOleo;
+    end;
+end;
+
+procedure TfrmAbastecimento.pnlGasolinaClick(Sender: TObject);
+begin
+  HabilitarDesabilitarBotoesCombustivel(Sender);
+  HabilitarDesabilitarBombasDeCombustivel(Sender);
+end;
+
+procedure TfrmAbastecimento.pnlOleoClick(Sender: TObject);
+begin
+  HabilitarDesabilitarBotoesCombustivel(Sender);
+  HabilitarDesabilitarBombasDeCombustivel(Sender);
+end;
+
+procedure TfrmAbastecimento.RbBombasGasolinaClick(Sender: TObject);
+begin
+  if RbBombasGasolina.ItemIndex = 0 then
+    FNumeroBomba := 1
+  else
+    FNumeroBomba := 2;
+end;
+
+procedure TfrmAbastecimento.RbBombasOleoClick(Sender: TObject);
+begin
+  if RbBombasOleo.ItemIndex = 0 then
+    FNumeroBomba := 3
+  else
+    FNumeroBomba := 4;
+end;
+
+procedure TfrmAbastecimento.ProcessarAbastecimento;
+begin
+ FControllerModelFactory.GetModelAbastecimento
+  .SetParametros
+    .SetValorImposto(13)
+    .SetValorCombustivelLitro(FValorCombustivelLitro)
+    .SetValorAbastecido(StrToFloat(edtValorAbastecimento.Text))
+    .SetNumeroBomba(FNumeroBomba)
+    .SetTipoCombustivel(FTipoCombustivel)
+  .&End
+  .ProcessarAbastecimento();
+
+  FControllerModelFactory.GetModelAbastecimento.inserir();
+end;
+
+procedure TfrmAbastecimento.ValidarCampos;
+begin
+  if (FTipoCombustivel = 0) then
+    raise Exception.Create('Selecione o tipo de combustivel.');
+
+  if (FNumeroBomba = -1) then
+    raise Exception.Create('Selecione a bomba de abastecimento do combustivel escolhido.');
+
+  if (edtValorAbastecimento.Text = '') then
+    raise Exception.Create('Insira o valor a ser abastecido.');
+
+  if (StrToFloatDef(edtValorAbastecimento.Text, 0) = 0) then
+    raise Exception.Create('Insira o valor a ser abastecido.');
+end;
+
+end.

@@ -1,0 +1,64 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
+  FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TForm1 = class(TForm)
+    RpControleAbastecimento: TRLReport;
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
+    DataSource1: TDataSource;
+    RpGroupDataAbastecimento: TRLGroup;
+    RpBandCabecalho: TRLBand;
+    RLLabel1: TRLLabel;
+    RpGroupTipoCombustivel: TRLGroup;
+    RpGroupNumeroBomba: TRLGroup;
+    RpBandAgrupamentoTitulos: TRLBand;
+    RLLabelDataAbastecimento: TRLLabel;
+    RLDBDataAbastecimento: TRLDBText;
+    RLLabelTipoCombustivel: TRLLabel;
+    RLDBTipoCombustivel: TRLDBText;
+    RLDBNumeroBomba: TRLDBText;
+    RLLabelNumeroBomba: TRLLabel;
+    RLBand1: TRLBand;
+    RLBand2: TRLBand;
+    RLBand3: TRLBand;
+    RpBandValorAbastecimento: TRLBand;
+    RLLabelValorAbastecimento: TRLLabel;
+    RLDBValorAbastecimento: TRLDBText;
+    RLBand4: TRLBand;
+    RLDBValorTotal: TRLDBResult;
+    RLLabelValorTotal: TRLLabel;
+    procedure RLDBText2BeforePrint(Sender: TObject; var AText: string; var PrintIt: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.RLDBText2BeforePrint(Sender: TObject; var AText: string; var PrintIt: Boolean);
+begin
+  if AText = '1' then
+    AText := 'Gasolina'
+  else
+    AText := 'Óleo';
+end;
+
+end.

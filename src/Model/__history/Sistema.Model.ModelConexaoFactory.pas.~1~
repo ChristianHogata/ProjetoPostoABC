@@ -1,0 +1,29 @@
+unit Sistema.Model.ModelConexaoFactory;
+
+interface
+
+uses
+  Sistema.Model.Interfaces;
+
+type
+  TModelConexaoFactory = class(TInterfacedObject, IModelConexaoFactory)
+    public
+      function GetConexao: IModel;
+      class function new: IModelConexaoFactory;
+  end;
+
+implementation
+
+{ TModelConexaoFactory }
+
+function TModelConexaoFactory.GetConexao: IModel;
+begin
+  Result :=
+end;
+
+class function TModelConexaoFactory.new: IModelConexaoFactory;
+begin
+  Result := Self.Create;
+end;
+
+end.

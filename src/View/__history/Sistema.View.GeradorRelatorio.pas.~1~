@@ -1,0 +1,30 @@
+unit Sistema.View.GeradorRelatorio;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TfrmGerarRelatorio = class(TForm)
+    dtpInicial: TDateTimePicker;
+    dtpFinal: TDateTimePicker;
+    btnGerarRelatorio: TButton;
+    lbDataInicial: TLabel;
+    lbDataFinal: TLabel;
+    chkGerarTodoPeriodo: TCheckBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmGerarRelatorio: TfrmGerarRelatorio;
+
+implementation
+
+{$R *.dfm}
+
+end.

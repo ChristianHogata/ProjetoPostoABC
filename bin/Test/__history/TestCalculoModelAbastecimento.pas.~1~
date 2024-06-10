@@ -1,0 +1,76 @@
+unit TestCalculoModelAbastecimento;
+
+interface
+
+uses
+  DUnitX.TestFramework, Sistema.Model.Abastecimento, Sistema.Model.Interfaces;
+
+type
+  [TestFixture]
+  TMyTestObject = class
+  public
+    [Setup]
+    procedure Setup;
+    [TearDown]
+    procedure TearDown;
+    // Sample Methods
+    // Simple single Test
+    // Test with TestCase Attribute to supply parameters.
+    [Test]
+    [TestCase('TestA','3.50,13,100,13')]
+    procedure ConferirValorImposto(const AValue1 : Double; const AValue2 : Double;  const AValue3 : Double; const Result : Double);
+    [Test]
+    [TestCase('TestA','3.50,100,28.57')]
+    procedure ConferirQuantidadeLitrosAbastecidos(const AValue1 : Double; const AValue2 : Double; const Result : Double);
+  private
+    FModelAbastecimento: IModelAbastecimento;
+
+  end;
+
+implementation
+
+uses
+  System.Math;
+
+procedure TMyTestObject.Setup;
+begin
+  FModelAbastecimento := TModelAbastecimento.new();
+end;
+
+procedure TMyTestObject.TearDown;
+begin
+end;
+
+procedure TMyTestObject.ConferirQuantidadeLitrosAbastecidos(const AValue1,AValue2, Result: Double);
+Var
+  lQuantidadeLitros: Double;
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorCombustivelLitro(AValue1)
+    .SetValorAbastecido(AValue2)
+  .&End
+  .ProcessarAbastecimento();
+
+  lQuantidadeLitros := RoundTo(FModelAbastecimento.GetQuantidadeCombustivelLitro, -2);
+
+  Assert.AreEqual(Result, lQuantidadeLitros);
+end;
+
+procedure TMyTestObject.ConferirValorImposto(const AValue1 : Double; const AValue2 : Double;  const AValue3 : Double; const Result : Double);
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorImposto(AValue2)
+    .SetValorCombustivelLitro(AValue1)
+    .SetValorAbastecido(AValue3)
+  .&End
+  .ProcessarAbastecimento();
+
+  Assert.AreEqual(Result, FModelAbastecimento.GetValorImposto);
+end;
+
+initialization
+  TDUnitX.RegisterTestFixture(TMyTestObject);
+
+end.

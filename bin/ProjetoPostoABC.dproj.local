@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/05/18 19:07:51.000.919,=C:\Users\chris\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/06/08 12:29:34.000.557,=C:\Users\chris\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/06/08 12:51:20.000.667,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Sistema.View.Abastecimento.dfm=C:\Users\chris\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2024/06/08 12:51:20.000.667,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Sistema.View.Abastecimento.pas=C:\Users\chris\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/06/08 13:33:48.000.240,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\ProjetoFortes.dproj=C:\Users\chris\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2024/06/08 13:46:12.000.659,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 13:49:02.000.870,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Interfaces\Sistema.Controller.Interfaces.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 13:49:09.000.381,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 13:50:11.000.753,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/08 13:57:12.000.104,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Interfaces\Sistema.Model.Interfaces.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 13:57:50.000.680,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:03:23.000.999,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Conexao\Sistema.Model.Conexao.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:14:26.000.035,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:32:08.000.242,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/08 14:34:42.000.382,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Sistema.Model.ModelConexaoFactory.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/08 14:45:31.000.462,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Sistema.Model.Abastecimento.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:53:08.000.503,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:53:58.000.145,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Sistema.Model.Combustivel.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:54:09.000.783,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:54:41.000.491,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Model\Sistema.Model.Bombas.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 14:58:25.000.203,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 15:07:22.000.657,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Sistema.Controller.ModelFactory.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/08 15:22:51.000.790,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/09 12:07:44.000.899,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/09 15:18:21.000.412,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/09 15:22:50.000.144,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Sistema.View.GeradorRelatorio.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/09 15:22:50.000.144,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Sistema.View.GeradorRelatorio.dfm=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.dfm</Transaction>
+    <Transaction>2024/06/09 16:29:42.000.824,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Relatórios\Sistema.View.Relatorios.ControleAbastecimento.dfm=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.dfm</Transaction>
+    <Transaction>2024/06/09 16:29:42.000.824,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\View\Relatórios\Sistema.View.Relatorios.ControleAbastecimento.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit1.pas</Transaction>
+    <Transaction>2024/06/09 16:31:27.000.706,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/09 16:39:19.000.703,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/09 16:52:25.000.698,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Sistema.Controller.RelatorioControleAbastecimento.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/09 16:52:42.000.581,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/09 16:54:49.000.329,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Sistema.Controller.RelatorioFactory.pas=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit3.pas</Transaction>
+    <Transaction>2024/06/09 17:41:45.000.758,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/09 18:50:36.000.228,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Sistema.Controller.RelatorioControleAbastecimento.pas=</Transaction>
+    <Transaction>2024/06/09 18:50:41.000.842,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\src\Controller\Sistema.Controller.RelatorioFactory.pas=</Transaction>
+    <Transaction>2024/06/09 22:36:31.000.154,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/10 02:16:19.000.122,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/10 02:17:45.000.783,=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\Unit2.pas</Transaction>
+    <Transaction>2024/06/10 09:06:55.749,C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\ProjetoPostoABC.dproj=C:\Users\chris\OneDrive\Área de Trabalho\Projeto Fortes\bin\ProjetoFortes.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

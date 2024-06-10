@@ -1,0 +1,174 @@
+unit Sistema.Model.Abastecimento;
+
+interface
+
+uses
+  Sistema.Model.Interfaces, FireDAC.DApt, Data.DB, FireDAC.Comp.Client, FireDAC.VCLUI.Wait, FireDAC.Stan.Async, System.Generics.Collections;
+
+type
+  TModelAbastecimento = class(TInterfacedObject, IModelAbastecimento, IModelAbastecimentoParametros)
+    private
+      FDataSet: TFDQuery;
+      FDataSource: TDataSource;
+      FValorAbastecido: Double;
+      FQuantidadeLitros: Double;
+      FValorCombustivelLitro: Double;
+      FTotal: Double;
+      FSubTotal: Double;
+      FValorImposto: Double;
+      FDataAbastecimento: TDateTime;
+      constructor Create; overload;
+      procedure inicializarDataSet;
+      function CalcularSubTotal(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+      function CalcularValorImposto(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+      function CalcularQuantidadeLitros(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+      function CalcularValorAbastecimento(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+    public
+      function SetParametros: IModelAbastecimentoParametros;
+      function SetValorImposto(pValorImposto: Integer): IModelAbastecimentoParametros;
+      function SetValorCombustivelLitro(pValorCombustivelLitro: Integer): IModelAbastecimentoParametros;
+      function SetTipoCombustivel(pTipoCombustivel: Integer): IModelAbastecimentoParametros;
+      function SetNumeroBomba(pNumeroBomba: Integer): IModelAbastecimentoParametros;
+      function &End: IModelAbastecimento;
+      procedure inserir;
+      procedure excluir;
+      procedure editar;
+      procedure cancelar;
+      procedure ProcessarAbastecimento();
+      function GetDataSource: TDataSource;
+      class function new: IModelAbastecimento;
+  end;
+
+implementation
+
+uses
+  Sistema.Model.ModelConexaoFactory, System.SysUtils;
+
+{ TModelAbastecimento }
+
+function TModelAbastecimento.&End: IModelAbastecimento;
+begin
+  Result := Self;
+end;
+
+function TModelAbastecimento.CalcularQuantidadeLitros(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+begin
+  Result := FValorAbastecido / FValorCombustivelLitro;
+end;
+
+function TModelAbastecimento.CalcularSubTotal(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+begin
+  Result := FValorAbastecido - ((FValorAbastecido * FValorImposto) / 100);
+end;
+
+function TModelAbastecimento.CalcularValorAbastecimento(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+begin
+  Result := FSubTotal + FValorImposto;
+end;
+
+function TModelAbastecimento.CalcularValorImposto(pDadosCalculoAbastecimento: TDictionary<string, Variant>): Double;
+begin
+  Result := ((FValorAbastecido * FValorImposto) / 100);
+end;
+
+procedure TModelAbastecimento.cancelar;
+begin
+  FDataSet.Cancel;
+end;
+
+constructor TModelAbastecimento.Create;
+begin
+  FValorImposto := 0;
+  FSubTotal := 0;
+  FTotal := 0;
+  FValorCombustivelLitro := 0;
+  FQuantidadeLitros := 0;
+  FValorAbastecido := 0;
+
+  FDataSet := TFDQuery.Create(nil);
+  FDataSet.Connection := (TModelConexaoFactory.new.GetConexao) as TFDCustomConnection;
+
+  FDataSource := TDataSource.Create(nil);
+  FDataSource.DataSet := FDataSet;
+
+  inicializarDataSet();
+end;
+
+procedure TModelAbastecimento.editar;
+begin
+  FDataSet.Edit;
+end;
+
+procedure TModelAbastecimento.excluir;
+begin
+  FDataSet.Delete;
+end;
+
+function TModelAbastecimento.GetDataSource: TDataSource;
+begin
+  Result := FDataSource;
+end;
+
+procedure TModelAbastecimento.inicializarDataSet;
+begin
+  FDataSet.SQL.Add('Select * from Abastecimento');
+  FDataSet.Open;
+end;
+
+procedure TModelAbastecimento.inserir;
+begin
+  FDataSet.Append;
+  FDataSet.FieldByName('ValorImposto').AsFloat := pDadosCalculoAbastecimento['ValorImposto'];
+  FDataSet.FieldByName('SubTotal').AsFloat := pDadosCalculoAbastecimento['SubTotal'];
+  FDataSet.FieldByName('Total').AsFloat := pDadosCalculoAbastecimento['Total'];
+  FDataSet.FieldByName('QuantidadeLitros').AsFloat := pDadosCalculoAbastecimento['QuantidadeLitros'];
+  FDataSet.FieldByName('ValorAbastecido').AsFloat := pDadosCalculoAbastecimento['ValorAbastecido'];
+  FDataSet.FieldByName('NumeroBomba').AsInteger := pDadosCalculoAbastecimento['NumeroBomba'];
+  FDataSet.FieldByName('TipoCombustivel').AsInteger := pDadosCalculoAbastecimento['TipoCombustivel'];
+  FDataSet.FieldByName('DataAbastecimento').AsDateTime := Now();
+  FDataSet.Post;
+end;
+
+class function TModelAbastecimento.new: IModelAbastecimento;
+begin
+  Result := Self.Create;
+end;
+
+procedure TModelAbastecimento.ProcessarAbastecimento();
+begin
+  FSubTotal := CalcularSubTotal(pDadosCalculoAbastecimento);
+  FValorImposto := CalcularValorImposto(pDadosCalculoAbastecimento);
+  FQuantidadeLitros := CalcularQuantidadeLitros(pDadosCalculoAbastecimento);
+  FTotal := CalcularValorAbastecimento(pDadosCalculoAbastecimento);
+end;
+
+function TModelAbastecimento.SetNumeroBomba(pNumeroBomba: Integer): IModelAbastecimentoParametros;
+begin
+  FNumeroBomba := pNumeroBomba;
+  Result := Self;
+end;
+
+function TModelAbastecimento.SetParametros: IModelAbastecimentoParametros;
+begin
+  Result := Self;
+end;
+
+function TModelAbastecimento.SetTipoCombustivel(pTipoCombustivel: Integer): IModelAbastecimentoParametros;
+begin
+  FTipoCombustivel := pTipoCombustivel;
+  Result := Self;
+end;
+
+function TModelAbastecimento.SetValorCombustivelLitro(pValorCombustivelLitro: Integer): IModelAbastecimentoParametros;
+begin
+  FValorCombustivelLitro := pValorCombustivelLitro;
+  Result := Self;
+end;
+
+function TModelAbastecimento.SetValorImposto(pValorImposto: Integer): IModelAbastecimentoParametros;
+begin
+  FValorImposto := pValorImposto;
+  Result := Self;
+end;
+
+end.

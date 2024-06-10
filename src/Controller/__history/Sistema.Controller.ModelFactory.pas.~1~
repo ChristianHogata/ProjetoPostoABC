@@ -1,0 +1,52 @@
+unit Sistema.Controller.ModelFactory;
+
+interface
+
+uses
+  Sistema.Controller.Interfaces, Sistema.Model.Interfaces;
+
+type
+  TControllerModelFactory = class(TInterfacedObject, IControllerModelFactory)
+    private
+      FModelAbastecimento: IModel;
+      FModelCombustivel: IModel;
+      FModelBombas: IModel;
+    public
+      function GetModelAbastecimento: IModel;
+      function GetModelCombustivel: IModel;
+      function GetModelBombas: IModel;
+  end;
+
+implementation
+
+uses
+  Sistema.Model.Abastecimento, Sistema.Model.Combustivel, Sistema.Model.Bombas;
+
+
+{ TControllerModelFactory }
+
+function TControllerModelFactory.GetModelAbastecimento: IModel;
+begin
+  if Assigned(FModelAbastecimento) then
+    FModelAbastecimento := TModelAbastecimento.new;
+
+  Result := FModelAbastecimento;
+end;
+
+function TControllerModelFactory.GetModelBombas: IModel;
+begin
+  if Assigned(FModelBombas) then
+    FModelBombas := TModelBombas.new;
+
+  Result := FModelCombustivel;
+end;
+
+function TControllerModelFactory.GetModelCombustivel: IModel;
+begin
+  if Assigned(FModelCombustivel) then
+    FModelCombustivel := TModelCombustivel.new;
+
+  Result := FModelCombustivel;
+end;
+
+end.

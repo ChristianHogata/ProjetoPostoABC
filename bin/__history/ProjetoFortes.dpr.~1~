@@ -1,0 +1,14 @@
+program ProjetoFortes;
+
+uses
+  Vcl.Forms,
+  Sistema.View.Abastecimento in '..\src\View\Sistema.View.Abastecimento.pas' {frmAbastecimento};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmAbastecimento, frmAbastecimento);
+  Application.Run;
+end.

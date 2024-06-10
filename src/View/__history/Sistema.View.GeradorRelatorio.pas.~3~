@@ -1,0 +1,51 @@
+unit Sistema.View.GeradorRelatorio;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TfrmGerarRelatorio = class(TForm)
+    dtpInicial: TDateTimePicker;
+    dtpFinal: TDateTimePicker;
+    btnGerarRelatorio: TButton;
+    lbDataInicial: TLabel;
+    lbDataFinal: TLabel;
+    chkGerarTodoPeriodo: TCheckBox;
+    procedure btnGerarRelatorioClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmGerarRelatorio: TfrmGerarRelatorio;
+
+implementation
+
+uses
+  Sistema.View.Relatorios.ControleAbastecimento, Sistema.Controller.ModelFactory,
+  Data.DB;
+
+{$R *.dfm}
+
+procedure TfrmGerarRelatorio.btnGerarRelatorioClick(Sender: TObject);
+Var
+  FDataSource: TDataSource;
+  frmRelatorioControleAbastecimento: TfrmRelatorioControleAbastecimento;
+begin
+  FDataSource := TControllerModelFactory.new.GetModelAbastecimento.SetQueryAbastecimentoParametros.AgruparValoresAbastecimento('group by DataAbastecimento, TipoCombustivel, NumeroBomba, QuantidadeLitros, SubTotal, ValorImposto, Total').&End.getDataSource();
+
+  frmRelatorioControleAbastecimento := TfrmRelatorioControleAbastecimento.Create(nil);
+  try
+    frmRelatorioControleAbastecimento.DataSourceRelatorio.DataSet := FDataSource.DataSet;
+    frmRelatorioControleAbastecimento.RpControleAbastecimento.Preview();
+  finally
+    frmRelatorioControleAbastecimento.Free;
+  end;
+end;
+
+end.

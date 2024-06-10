@@ -1,0 +1,14 @@
+unit Sistema.Controller.Interfaces;
+
+interface
+
+type
+
+  IControllerConexaoFactory = interface
+    ['{FE95FAE0-9F1D-4BFE-AB0B-82A566294D40}']
+    function getConexao: IModelConexao;
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,83 @@
+unit Sistema.Controller.RelatorioControleAbastecimento;
+
+interface
+
+uses
+  Sistema.Controller.Interfaces, Data.DB, RLReport;
+
+type
+  TControllerRelatorioControleAbastecimento = class(TInterfacedObject, IControllerRelatorioControleAbastecimento, IControllerRelatorioControleAbastecimentoParametros)
+    private
+      FDataSource: TDataSource;
+      FDataInicial: TDate;
+      FDataFinal: TDate;
+      FTodoOPeriodo: Boolean;
+      FRelatorio: TRLReport;
+      Constructor Create; overload;
+    public
+      function SetDataSource(pDataSource: TDataSource): IControllerRelatorioControleAbastecimentoParametros;
+      function SetDataInicial(pDataInicial: TDate): IControllerRelatorioControleAbastecimentoParametros;
+      function SetDataFinal(pDataFinal: TDate): IControllerRelatorioControleAbastecimentoParametros;
+      function SetTodoOPeriodo(pTodoOPeriodo: Boolean): IControllerRelatorioControleAbastecimentoParametros;
+      function &End: IControllerRelatorioControleAbastecimento;
+      function SetParametrosRelatorio: IControllerRelatorioControleAbastecimentoParametros;
+      procedure GerarRelatorio;
+      class function new: IControllerRelatorioControleAbastecimento;
+  end;
+
+implementation
+
+{ TControllerRelatorioControleAbastecimento }
+
+constructor TControllerRelatorioControleAbastecimento.Create;
+begin
+  FRelatorio := TRLReport.Create(nil);
+  FRelatorio.DataSource := FDataSource;
+end;
+
+function TControllerRelatorioControleAbastecimento.&End: IControllerRelatorioControleAbastecimento;
+begin
+  Result := Self;
+end;
+
+procedure TControllerRelatorioControleAbastecimento.GerarRelatorio;
+begin
+  FRelatorio.LoadFromFile('\ControleAbastecimento.rpf');
+  FRelatorio.Preview();
+end;
+
+class function TControllerRelatorioControleAbastecimento.new: IControllerRelatorioControleAbastecimento;
+begin
+  Result := Self.Create;
+end;
+
+function TControllerRelatorioControleAbastecimento.SetDataFinal(pDataFinal: TDate): IControllerRelatorioControleAbastecimentoParametros;
+begin
+  FDataFinal := pDataFinal;
+  Result := Self;
+end;
+
+function TControllerRelatorioControleAbastecimento.SetDataInicial(pDataInicial: TDate): IControllerRelatorioControleAbastecimentoParametros;
+begin
+  FDataInicial := pDataInicial;
+  Result := Self;
+end;
+
+function TControllerRelatorioControleAbastecimento.SetDataSource(pDataSource: TDataSource): IControllerRelatorioControleAbastecimentoParametros;
+begin
+  FDataSource := pDataSource;
+  Result := Self;
+end;
+
+function TControllerRelatorioControleAbastecimento.SetParametrosRelatorio: IControllerRelatorioControleAbastecimentoParametros;
+begin
+  Result := Self;
+end;
+
+function TControllerRelatorioControleAbastecimento.SetTodoOPeriodo(pTodoOPeriodo: Boolean): IControllerRelatorioControleAbastecimentoParametros;
+begin
+  FTodoOPeriodo := pTodoOPeriodo;
+  Result := Self;
+end;
+
+end.

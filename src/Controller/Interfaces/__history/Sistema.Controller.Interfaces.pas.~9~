@@ -1,0 +1,40 @@
+unit Sistema.Controller.Interfaces;
+
+interface
+
+uses
+  Sistema.Model.Interfaces, Data.DB;
+
+type
+  IControllerRelatorioControleAbastecimento = interface;
+
+  IControllerModelFactory = interface
+    ['{FAF4101B-614F-4887-AC4D-E4BAFB3B7753}']
+    function GetModelAbastecimento: IModelAbastecimento;
+    function GetModelCombustivel: IModel;
+    function GetModelBombas: IModel;
+  end;
+
+  IControllerRelatorioControleAbastecimentoParametros = interface
+    ['{E6A573A9-E50D-443F-ACA4-80EF5440EBAC}']
+    function SetDataSource(pDataSource: TDataSource): IControllerRelatorioControleAbastecimentoParametros;
+    function SetDataInicial(pDataInicial: TDate): IControllerRelatorioControleAbastecimentoParametros;
+    function SetDataFinal(pDataFinal: TDate): IControllerRelatorioControleAbastecimentoParametros;
+    function SetTodoOPeriodo(pTodoOPeriodo: Boolean): IControllerRelatorioControleAbastecimentoParametros;
+    function &End: IControllerRelatorioControleAbastecimento;
+  end;
+
+  IControllerRelatorioControleAbastecimento = interface
+    ['{57DE157C-4FC7-4E50-B1B5-A6C918404C86}']
+    function SetParametrosRelatorio: IControllerRelatorioControleAbastecimentoParametros;
+    procedure GerarRelatorio;
+  end;
+
+  IControllerRelatorioFactory = interface
+    ['{A756057F-35ED-40CD-810A-E645F21AC0D4}']
+    function GetRelatorioControleAbastecimento: IControllerRelatorioControleAbastecimento;
+  end;
+
+implementation
+
+end.

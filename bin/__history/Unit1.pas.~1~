@@ -1,0 +1,60 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
+  FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TForm1 = class(TForm)
+    RLReport1: TRLReport;
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
+    DataSource1: TDataSource;
+    RLGroup1: TRLGroup;
+    RLBand1: TRLBand;
+    RLLabel1: TRLLabel;
+    RLGroup2: TRLGroup;
+    RLGroup3: TRLGroup;
+    RLBand10: TRLBand;
+    RLDBResult1: TRLDBResult;
+    RLBand4: TRLBand;
+    RLLabel2: TRLLabel;
+    RLLabel3: TRLLabel;
+    RLLabel4: TRLLabel;
+    RLLabel5: TRLLabel;
+    RLBand9: TRLBand;
+    RLDBText2: TRLDBText;
+    RLDBText3: TRLDBText;
+    RLDBText4: TRLDBText;
+    RLDBText6: TRLDBText;
+    procedure RLDBText2BeforePrint(Sender: TObject; var AText: string; var PrintIt: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.RLDBText2BeforePrint(Sender: TObject; var AText: string; var PrintIt: Boolean);
+begin
+  if AText = '1' then
+    AText := 'Gasolina'
+  else
+    AText := 'Óleo';
+end;
+
+end.

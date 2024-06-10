@@ -1,0 +1,113 @@
+unit TestCalculoModelAbastecimento;
+
+interface
+
+uses
+  DUnitX.TestFramework, Sistema.Model.Abastecimento, Sistema.Model.Interfaces;
+
+type
+  [TestFixture]
+  TMyTestObject = class
+  public
+    [Setup]
+    procedure Setup;
+    [TearDown]
+    procedure TearDown;
+    // Sample Methods
+    // Simple single Test
+    // Test with TestCase Attribute to supply parameters.
+    [Test]
+    [TestCase('TestA','100,3.50,13,13')]
+    procedure ConferirValorImposto(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+
+    [Test]
+    [TestCase('TestA','100,3.50,13,28.57')]
+    procedure ConferirQuantidadeLitrosAbastecidos(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+
+    [Test]
+    [TestCase('TestA','100,3.50,13,87')]
+    procedure ConferirValorSubtotal(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+
+    [Test]
+    [TestCase('TestA','100,3.50,13,100')]
+    procedure ConferirValortotal(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+
+  private
+    FModelAbastecimento: IModelAbastecimento;
+
+  end;
+
+implementation
+
+uses
+  System.Math;
+
+procedure TMyTestObject.Setup;
+begin
+  FModelAbastecimento := TModelAbastecimento.new();
+end;
+
+procedure TMyTestObject.TearDown;
+begin
+end;
+
+procedure TMyTestObject.ConferirQuantidadeLitrosAbastecidos(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+Var
+  lQuantidadeLitros: Double;
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorAbastecido(pValorAbastecimento)
+    .SetValorCombustivelLitro(pValorCombustivel)
+    .SetValorImposto(pValorImposto)
+  .&End
+  .ProcessarAbastecimento();
+
+  lQuantidadeLitros := RoundTo(FModelAbastecimento.GetQuantidadeCombustivelLitro, -2);
+
+  Assert.AreEqual(Result, lQuantidadeLitros);
+end;
+
+procedure TMyTestObject.ConferirValorImposto(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorAbastecido(pValorAbastecimento)
+    .SetValorCombustivelLitro(pValorCombustivel)
+    .SetValorImposto(pValorImposto)
+  .&End
+  .ProcessarAbastecimento();
+
+  Assert.AreEqual(Result, FModelAbastecimento.GetValorImposto);
+end;
+
+procedure TMyTestObject.ConferirValorSubtotal(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorAbastecido(pValorAbastecimento)
+    .SetValorCombustivelLitro(pValorCombustivel)
+    .SetValorImposto(pValorImposto)
+  .&End
+  .ProcessarAbastecimento();
+
+  Assert.AreEqual(Result, FModelAbastecimento.GetValorSubTotal);
+end;
+
+procedure TMyTestObject.ConferirValortotal(const pValorAbastecimento, pValorCombustivel, pValorImposto, Result: Double);
+begin
+  FModelAbastecimento
+  .SetParametros
+    .SetValorAbastecido(pValorAbastecimento)
+    .SetValorCombustivelLitro(pValorCombustivel)
+    .SetValorImposto(pValorImposto)
+  .&End
+  .ProcessarAbastecimento();
+
+  Assert.AreEqual(Result, FModelAbastecimento.GetValorTotal);
+end;
+
+initialization
+  TDUnitX.RegisterTestFixture(TMyTestObject);
+
+end.

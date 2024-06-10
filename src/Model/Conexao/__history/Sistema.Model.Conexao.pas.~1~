@@ -1,0 +1,71 @@
+unit Sistema.Model.Conexao;
+
+interface
+
+uses
+  Sistema.Model.Interfaces, Data.DB;
+
+type
+  TModelConexao = class(TInterfacedObject, IModelConexao, IModelConexaoParametros)
+  private
+    FCaminhoConexao: string;
+    FNomeUsuario: string;
+    FSenhaConexao: string;
+    FConexao: TDataSource;
+    constructor Create; overload;
+  public
+    function SetParametrosConexao: IModelConexaoParametros;
+    function GetConexao: TDataSource;
+    function SetCaminhoConexao(pCaminho: string): IModelConexaoParametros;
+    function SetNomeUsuario(pNome: string): IModelConexaoParametros;
+    function SetSenhaConexao(pSenha: string): IModelConexaoParametros;
+    function &End: IModelConexao;
+    class function new: IModelConexao;
+  end;
+
+implementation
+
+{ TModelConexao }
+
+constructor TModelConexao.Create;
+begin
+  FConexao := TDataSource.Create(nil);
+end;
+
+function TModelConexao.&End: IModelConexao;
+begin
+
+end;
+
+function TModelConexao.GetConexao: TDataSource;
+begin
+
+end;
+
+class function TModelConexao.new: IModelConexao;
+begin
+  Result := Self.Create;
+end;
+
+function TModelConexao.SetCaminhoConexao(
+  pCaminho: string): IModelConexaoParametros;
+begin
+
+end;
+
+function TModelConexao.SetNomeUsuario(pNome: string): IModelConexaoParametros;
+begin
+
+end;
+
+function TModelConexao.SetParametrosConexao: IModelConexaoParametros;
+begin
+
+end;
+
+function TModelConexao.SetSenhaConexao(pSenha: string): IModelConexaoParametros;
+begin
+
+end;
+
+end.

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D7991A70-8E4E-4506-8098-9BA1EE339BA6}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ProjetoPostoABC.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Test\ProjetoPostoABCTests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ProjetoPostoABC">
+        <MSBuild Projects="ProjetoPostoABC.dproj"/>
+    </Target>
+    <Target Name="ProjetoPostoABC:Clean">
+        <MSBuild Projects="ProjetoPostoABC.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjetoPostoABC:Make">
+        <MSBuild Projects="ProjetoPostoABC.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ProjetoPostoABCTests">
+        <MSBuild Projects="Test\ProjetoPostoABCTests.dproj"/>
+    </Target>
+    <Target Name="ProjetoPostoABCTests:Clean">
+        <MSBuild Projects="Test\ProjetoPostoABCTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjetoPostoABCTests:Make">
+        <MSBuild Projects="Test\ProjetoPostoABCTests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ProjetoPostoABC;ProjetoPostoABCTests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ProjetoPostoABC:Clean;ProjetoPostoABCTests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ProjetoPostoABC:Make;ProjetoPostoABCTests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

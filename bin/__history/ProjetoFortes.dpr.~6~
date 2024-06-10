@@ -1,0 +1,28 @@
+program ProjetoFortes;
+
+uses
+  Vcl.Forms,
+  Sistema.View.Abastecimento in '..\src\View\Sistema.View.Abastecimento.pas' {frmAbastecimento},
+  Sistema.Controller.Interfaces in '..\src\Controller\Interfaces\Sistema.Controller.Interfaces.pas',
+  Sistema.Model.Interfaces in '..\src\Model\Interfaces\Sistema.Model.Interfaces.pas',
+  Sistema.Model.Conexao in '..\src\Model\Conexao\Sistema.Model.Conexao.pas',
+  Sistema.Model.Abastecimento in '..\src\Model\Sistema.Model.Abastecimento.pas',
+  Sistema.Model.ModelConexaoFactory in '..\src\Model\Sistema.Model.ModelConexaoFactory.pas',
+  Sistema.Model.Combustivel in '..\src\Model\Sistema.Model.Combustivel.pas',
+  Sistema.Model.Bombas in '..\src\Model\Sistema.Model.Bombas.pas',
+  Sistema.Controller.ModelFactory in '..\src\Controller\Sistema.Controller.ModelFactory.pas',
+  Sistema.View.Relatorios.ControleAbastecimento in '..\src\View\Relatórios\Sistema.View.Relatorios.ControleAbastecimento.pas' {frmRelatorioControleAbastecimento},
+  Sistema.View.GeradorRelatorio in '..\src\View\Sistema.View.GeradorRelatorio.pas' {frmGerarRelatorio},
+  Sistema.Controller.RelatorioControleAbastecimento in '..\src\Controller\Sistema.Controller.RelatorioControleAbastecimento.pas',
+  Sistema.Controller.RelatorioFactory in '..\src\Controller\Sistema.Controller.RelatorioFactory.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmAbastecimento, frmAbastecimento);
+  Application.CreateForm(TfrmRelatorioControleAbastecimento, frmRelatorioControleAbastecimento);
+  Application.CreateForm(TfrmGerarRelatorio, frmGerarRelatorio);
+  Application.Run;
+end.

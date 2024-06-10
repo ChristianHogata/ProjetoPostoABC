@@ -1,0 +1,101 @@
+CREATE TABLE Combustivel (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Descricao VARCHAR(255) NOT NULL,
+    ValorCombustivelLitro REAL
+);
+
+
+CREATE TABLE Bombas (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    TipoCombustivel INTEGER,
+    FOREIGN KEY (TipoCombustivel) REFERENCES Combustivel(Id)
+);
+
+
+CREATE TABLE Abastecimento (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    TipoCombustivel INTEGER,
+    NumeroBomba INTEGER,
+    ValorAbastecido REAL,
+    QuantidadeLitros REAL,
+    SubTotal REAL,
+    ValorImposto REAL,
+    Total REAL,
+    DataAbastecimento DATETIME,
+    FOREIGN KEY (TipoCombustivel) REFERENCES Combustivel(Id),
+    FOREIGN KEY (NumeroBomba) REFERENCES Bombas(Id)
+);
+
+
+
+INSERT INTO Combustivel (
+                            Id,
+                            Descricao,
+                            ValorCombustivelLitro
+                        )
+                        VALUES (
+                            '1',
+                            'Gasolina',
+                            '3.50'
+                        );
+
+
+
+INSERT INTO Combustivel 
+(
+                            Id,
+                            Descricao,
+                            ValorCombustivelLitro
+                        )
+                        VALUES (
+                            '2',
+                            'Oleo',
+                            '5.50'
+                        );
+
+
+
+
+INSERT INTO Bombas (
+ Id,
+ TipoCombustivel
+                   )
+                   VALUES (
+                       '1',
+                       '1'
+                   );
+
+
+                   
+INSERT INTO Bombas (
+                       Id,
+                       TipoCombustivel
+                   )
+                   VALUES (
+                       '2',
+                       '1'
+                   );
+
+
+                   
+INSERT INTO Bombas (
+                       Id,
+                       TipoCombustivel
+                   )
+                   VALUES (
+                       '3',
+                       '2'
+                   );
+
+
+                   
+INSERT INTO Bombas (
+                       Id,
+                       TipoCombustivel
+                   )
+                   VALUES (
+                       '4',
+                       '2'
+                   );
+
+
