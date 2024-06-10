@@ -25,7 +25,7 @@ begin
     TModelConexao
       .new
       .SetParametrosConexao
-      .SetCaminhoConexao(ExtractFileDir(Application.ExeName) + '\Assets\DB\ProjetoFortes')
+      .SetCaminhoConexao(ExtractFileDir(Application.ExeName) + '\Assets\DB\ProjetoPostoAbc')
       .SetNomeUsuario('')
       .SetSenhaConexao('')
       .&End

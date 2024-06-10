@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="C:\Users\chris\OneDrive\Documentos\GitHub\ProjetoPostoABC\ProjetoPostoABCTests.exe" total="4" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2024-06-10" time="0.011">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="ProjetoPostoABCTests.exe" executed="true" result="Success" success="True" time="0.011" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="TestCalculoModelAbastecimento" executed="true" result="Success" success="True" time="0.010" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TMyTestObject" executed="True" result="Success" success="True" time="0.010" >
+                <results>
+                  <test-case name="ConferirValorImposto.Teste para conferir o valor do Imposto calculado pela rotina." executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="ConferirQuantidadeLitrosAbastecidos.Teste para conferir a quantidade de litros abastecidos calculado pela rotina." executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="ConferirValorSubtotal.Teste para conferir o Subtotal calculado pela rotina." executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="ConferirValortotal.Teste para conferir o valor total calculado pela rotina." executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>
