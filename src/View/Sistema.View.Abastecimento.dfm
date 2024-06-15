@@ -15,6 +15,7 @@ object frmAbastecimento: TfrmAbastecimento
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
@@ -145,6 +146,8 @@ object frmAbastecimento: TfrmAbastecimento
       Caption = 'CardAbastecimento'
       CardIndex = 1
       TabOrder = 1
+      ExplicitWidth = 620
+      ExplicitHeight = 431
       object pnlAbastecimento: TPanel
         Left = 0
         Top = 0
@@ -152,6 +155,8 @@ object frmAbastecimento: TfrmAbastecimento
         Height = 440
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 620
+        ExplicitHeight = 431
         object pnlComponentesAbastecimento: TPanel
           Left = -4
           Top = 0

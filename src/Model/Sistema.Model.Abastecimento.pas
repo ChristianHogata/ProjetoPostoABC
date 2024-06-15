@@ -10,6 +10,7 @@ type
     private
       FDataSet: TFDQuery;
       FDataSource: TDataSource;
+      FConexao: IModelConexao;
       FValorAbastecido: Double;
       FQuantidadeLitros: Double;
       FValorCombustivelLitro: Double;
@@ -48,6 +49,7 @@ type
       procedure ProcessarAbastecimento();
       function GetDataSource: TDataSource;
       class function new: IModelAbastecimento;
+      destructor Destroy; override;
   end;
 
 implementation
@@ -108,13 +110,22 @@ begin
   FQuantidadeLitros := 0;
   FValorAbastecido := 0;
 
+  FConexao := TModelConexaoFactory.new.GetConexao;
+
   FDataSet := TFDQuery.Create(nil);
-  FDataSet.Connection := (TModelConexaoFactory.new.GetConexao) as TFDCustomConnection;
+  FDataSet.Connection := TFDCustomConnection(FConexao.Get);
 
   FDataSource := TDataSource.Create(nil);
   FDataSource.DataSet := FDataSet;
 
   inicializarDataSet();
+end;
+
+destructor TModelAbastecimento.Destroy;
+begin
+  inherited;
+  FDataSet.Free;
+  FDataSource.Free;
 end;
 
 procedure TModelAbastecimento.editar;

@@ -67,7 +67,7 @@ type
 
   IModelConexaoFactory = interface
     ['{6BD1D380-A75E-4BE0-A8DA-DA94F385DE90}']
-    function GetConexao: TObject;
+    function GetConexao: IModelConexao;
   end;
 
 implementation

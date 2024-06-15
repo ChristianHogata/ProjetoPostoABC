@@ -15,6 +15,8 @@ object frmGerarRelatorio: TfrmGerarRelatorio
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
   TextHeight = 15
   object lbDataInicial: TLabel
     Left = 16

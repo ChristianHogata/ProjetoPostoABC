@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Data.DB;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Data.DB,  Sistema.Controller.ModelFactory, Sistema.Controller.Interfaces;
 
 type
   TfrmGerarRelatorio = class(TForm)
@@ -15,9 +15,12 @@ type
     lbDataFinal: TLabel;
     chkGerarTodoPeriodo: TCheckBox;
     procedure btnGerarRelatorioClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FDataSourceRelatorio: TDataSource;
+    FControllerModelFactory: IControllerModelFactory;
     procedure PrepararDataSetRelatorio;
   public
     { Public declarations }
@@ -29,7 +32,7 @@ var
 implementation
 
 uses
-  Sistema.View.Relatorios.ControleAbastecimento, Sistema.Controller.ModelFactory;
+  Sistema.View.Relatorios.ControleAbastecimento;
 
 {$R *.dfm}
 
@@ -45,8 +48,17 @@ begin
     frmRelatorioControleAbastecimento.RpControleAbastecimento.Preview();
   finally
     frmRelatorioControleAbastecimento.Free;
-    FreeAndNil(FDataSourceRelatorio);
   end;
+end;
+
+procedure TfrmGerarRelatorio.FormCloseQuery(Sender: TObject;var CanClose: Boolean);
+begin
+  ReportMemoryLeaksOnShutdown := true;
+end;
+
+procedure TfrmGerarRelatorio.FormShow(Sender: TObject);
+begin
+  FControllerModelFactory := TControllerModelFactory.new();
 end;
 
 procedure TfrmGerarRelatorio.PrepararDataSetRelatorio;
@@ -56,7 +68,8 @@ begin
   if chkGerarTodoPeriodo.Checked then
     begin
       FDataSourceRelatorio :=
-        TControllerModelFactory.new.GetModelAbastecimento
+        FControllerModelFactory
+          .GetModelAbastecimento
           .SetQueryAbastecimentoParametros
             .AgruparValoresAbastecimento(AGRUPAMENTO)
           .&End
@@ -65,7 +78,8 @@ begin
   else
     begin
       FDataSourceRelatorio :=
-        TControllerModelFactory.new.GetModelAbastecimento
+        FControllerModelFactory
+        .GetModelAbastecimento
           .SetQueryAbastecimentoParametros
             .AdicionarCondicaoQuery(Format('where DataAbastecimento >= ''%s'' and DataAbastecimento <= ''%s''', [FormatDateTime('yyyy-MM-dd', dtpInicial.Date), FormatDateTime('yyyy-MM-dd', dtpFinal.Date)]))
             .AgruparValoresAbastecimento(AGRUPAMENTO)

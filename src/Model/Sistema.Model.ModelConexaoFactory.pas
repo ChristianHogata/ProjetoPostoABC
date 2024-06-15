@@ -8,7 +8,7 @@ uses
 type
   TModelConexaoFactory = class(TInterfacedObject, IModelConexaoFactory)
     public
-      function GetConexao: TObject;
+      function GetConexao: IModelConexao;
       class function new: IModelConexaoFactory;
   end;
 
@@ -19,17 +19,16 @@ uses
 
 { TModelConexaoFactory }
 
-function TModelConexaoFactory.GetConexao: TObject;
+function TModelConexaoFactory.GetConexao: IModelConexao;
 begin
   Result :=
     TModelConexao
       .new
       .SetParametrosConexao
-      .SetCaminhoConexao(ExtractFileDir(Application.ExeName) + '\Assets\DB\ProjetoPostoAbc')
+      .SetCaminhoConexao('CAMINHNO DO DB AQUI')
       .SetNomeUsuario('')
       .SetSenhaConexao('')
-      .&End
-      .Get;
+      .&End;
 end;
 
 class function TModelConexaoFactory.new: IModelConexaoFactory;

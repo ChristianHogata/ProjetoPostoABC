@@ -61,6 +61,7 @@ type
     procedure btnRelatorioClick(Sender: TObject);
     procedure PesquisarClick(Sender: TObject);
     procedure btnDeletarRegistroClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
     FControllerModelFactory: IControllerModelFactory;
@@ -234,6 +235,11 @@ begin
   edtSubtotal.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorSubTotal);
   edtValorImposto.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorImposto);
   edtValorTotalAbastecimento.Text := FormatFloat('R$#,##0.00', FControllerModelFactory.GetModelAbastecimento.GetValorTotal);
+end;
+
+procedure TfrmAbastecimento.FormCloseQuery(Sender: TObject;var CanClose: Boolean);
+begin
+  ReportMemoryLeaksOnShutdown := true;
 end;
 
 procedure TfrmAbastecimento.FormCreate(Sender: TObject);

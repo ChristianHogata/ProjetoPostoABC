@@ -20,6 +20,7 @@ type
     function SetSenhaConexao(pSenha: string): IModelConexaoParametros;
     function &End: IModelConexao;
     class function new: IModelConexao;
+    destructor Destroy; override;
   end;
 
 implementation
@@ -33,6 +34,13 @@ begin
   FConexao := TFDConnection.Create(nil);
   FConexao.DriverName := 'SQLite';
   FConexao.LoginPrompt := false;
+end;
+
+destructor TModelConexao.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDriver.Free;
 end;
 
 function TModelConexao.&End: IModelConexao;

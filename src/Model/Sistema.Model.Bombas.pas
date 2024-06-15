@@ -10,6 +10,7 @@ type
     private
       FDataSet: TFDQuery;
       FDataSource: TDataSource;
+      FConexao: IModelConexao;
       constructor Create; overload;
       procedure inicializarDataSet;
     public
@@ -19,6 +20,7 @@ type
       procedure cancelar;
       function GetDataSource: TDataSource;
       class function new: IModel;
+      destructor Destroy; override;
   end;
 
 implementation
@@ -35,13 +37,21 @@ end;
 
 constructor TModelBombas.Create;
 begin
+  FConexao := TModelConexaoFactory.new.GetConexao;
   FDataSet := TFDQuery.Create(nil);
-  FDataSet.Connection := (TModelConexaoFactory.new.GetConexao) as TFDCustomConnection;
+  FDataSet.Connection := TFDCustomConnection(FConexao.Get);
 
   FDataSource := TDataSource.Create(nil);
   FDataSource.DataSet := FDataSet;
 
   inicializarDataSet;
+end;
+
+destructor TModelBombas.Destroy;
+begin
+  inherited;
+  FDataSource.Free;
+  FDataSet.Free;
 end;
 
 procedure TModelBombas.editar;
